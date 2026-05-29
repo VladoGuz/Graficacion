@@ -57,12 +57,6 @@ Dado que el proyecto utiliza módulos de JavaScript ES6 (`type="module"`), los n
   ```
   Luego, abre la dirección que te indique en la consola (normalmente `http://localhost:3000` o `http://localhost:8080`).
 
-- **Con Python:**
-  Si tienes Python instalado, puedes levantar un servidor simple ejecutando:
-  ```bash
-  python -m http.server
-  ```
-  Luego, abre en tu navegador `http://localhost:8000`.
 
 #### Opción B: Extensión Live Server de VS Code
 Si utilizas **Visual Studio Code**, puedes hacer clic derecho sobre el archivo `index.html` y seleccionar **"Open with Live Server"** (requiere tener instalada la extensión *Live Server* de la tienda de VS Code). Esto creará y abrirá el servidor local automáticamente.
