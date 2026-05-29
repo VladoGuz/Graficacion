@@ -43,8 +43,26 @@ Dado que el proyecto utiliza TypeScript y compila el código resultante dentro d
 
 Una vez que se haya generado el archivo transpilado en `dist/src/index.js`, puedes abrir y ver el proyecto utilizando cualquiera de los siguientes métodos:
 
-#### Opción A: Abrir el archivo directamente (Sin servidor)
-Desde el explorador de archivos de tu sistema operativo para abrirlo directamente en tu navegador web favorito.
+#### Opción A: Usar un servidor HTTP local (Recomendado)
+Dado que el proyecto utiliza módulos de JavaScript ES6 (`type="module"`), los navegadores modernos bloquean su ejecución directa de forma local (`file://`) por políticas de seguridad (CORS). Por lo tanto, necesitas ejecutar un servidor local:
+
+- **Con Node.js (npx):**
+  Ejecuta cualquiera de estos comandos en la terminal desde la carpeta raíz del proyecto:
+  ```bash
+  npx serve .
+  ```
+  o:
+  ```bash
+  npx http-server .
+  ```
+  Luego, abre la dirección que te indique en la consola (normalmente `http://localhost:3000` o `http://localhost:8080`).
+
+- **Con Python:**
+  Si tienes Python instalado, puedes levantar un servidor simple ejecutando:
+  ```bash
+  python -m http.server
+  ```
+  Luego, abre en tu navegador `http://localhost:8000`.
 
 #### Opción B: Extensión Live Server de VS Code
-Si utilizas **Visual Studio Code**, puedes hacer clic derecho sobre el archivo `index.html` y seleccionar **"Open with Live Server"** (requiere tener instalada la extensión *Live Server*).
+Si utilizas **Visual Studio Code**, puedes hacer clic derecho sobre el archivo `index.html` y seleccionar **"Open with Live Server"** (requiere tener instalada la extensión *Live Server* de la tienda de VS Code). Esto creará y abrirá el servidor local automáticamente.
