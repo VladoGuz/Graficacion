@@ -1,86 +1,168 @@
 <!doctype html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation Starter Template</title>
-    <!-- Compressed CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" 
-        rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style/index.css">
-    </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Graficación</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Abrir</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Vizualizar</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Expand</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  About
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="#">Development Team </a></li>
-                  <li><a class="dropdown-item" href="#">Version</a></li>
-                  <li><a class="dropdown-item" href="#">Contact</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+<html lang="es">
 
-      <div class="card text-center">
-        <div class="card-header">
-          Canvas de vizualizaion
-        </div>
-        <div class="chart card-img-bottom">
-            <canvas id="circlechart" width="640" height="480"></canvas>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graficador de Funciones Pro</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./style/index.css">
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Sidebar Control Panel -->
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i class="bi bi-graph-up-arrow"></i>
           </div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">Está es el área de dibujo dosponible.</p>
-          
-          
+          <div>
+            <h1 class="logo-title">Graficador</h1>
+            <span class="logo-subtitle">Visualización Matemática</span>
+          </div>
         </div>
-        
-        <div class="card-footer text-muted">
-          2 days ago
-        </div>
+      </header>
+
+      <div class="sidebar-content">
+        <!-- Add Function Section -->
+        <section class="sidebar-section">
+          <h2 class="section-title">Nueva Función</h2>
+          <form id="add-func-form">
+            <div class="input-group mb-2">
+              <span class="input-group-text bg-dark-eval border-secondary text-secondary">f(x) =</span>
+              <input type="text" id="func-input" class="form-control bg-dark-eval border-secondary"
+                placeholder="sin(x) * x" autocomplete="off">
+            </div>
+            <div class="d-flex gap-2">
+              <input type="color" id="func-color" class="form-control form-control-color border-secondary"
+                value="#3b82f6" title="Elige un color">
+              <button type="submit"
+                class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-plus-lg"></i> Graficar
+              </button>
+            </div>
+            <div id="func-error" class="error-feedback mt-2 d-none">
+              <i class="bi bi-exclamation-triangle-fill"></i> <span id="error-message">Error de sintaxis</span>
+            </div>
+          </form>
+        </section>
+
+        <!-- Active Functions List -->
+        <section class="sidebar-section">
+          <h2 class="section-title">Funciones Activas</h2>
+          <div id="functions-list" class="functions-list">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- View Controls Section -->
+        <section class="sidebar-section">
+          <h2 class="section-title">Controles de Vista</h2>
+          <div class="view-controls-grid">
+            <button id="btn-zoom-in" class="btn btn-outline-secondary btn-sm" title="Acercar">
+              <i class="bi bi-zoom-in"></i> Acercar
+            </button>
+            <button id="btn-zoom-out" class="btn btn-outline-secondary btn-sm" title="Alejar">
+              <i class="bi bi-zoom-out"></i> Alejar
+            </button>
+            <button id="btn-reset" class="btn btn-outline-danger btn-sm w-100 grid-span-2" title="Restaurar Vista">
+              <i class="bi bi-arrow-counterclockwise"></i> Restaurar Vista
+            </button>
+          </div>
+
+          <!-- Coordinate ranges info -->
+          <div class="viewport-info mt-3">
+            <div class="info-row">
+              <span>Rango X:</span>
+              <span id="range-x-text">-10.00 a 10.00</span>
+            </div>
+            <div class="info-row">
+              <span>Rango Y:</span>
+              <span id="range-y-text">-7.50 a 7.50</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Presets Section -->
+        <section class="sidebar-section">
+          <h2 class="section-title">Presets de Funciones</h2>
+          <div class="presets-container">
+            <button class="preset-btn btn btn-sm btn-dark" data-expr="sin(x)">
+              Onda Seno
+            </button>
+            <button class="preset-btn btn btn-sm btn-dark" data-expr="x^2 - 4">
+              Parábola
+            </button>
+            <button class="preset-btn btn btn-sm btn-dark" data-expr="exp(-x^2) * 5">
+              Gaussiana
+            </button>
+            <button class="preset-btn btn btn-sm btn-dark" data-expr="tan(x)">
+              Tangente
+            </button>
+            <button class="preset-btn btn btn-sm btn-dark" data-expr="sin(x)/x">
+              Sinc (Seno card.)
+            </button>
+            <button class="preset-btn btn btn-sm btn-dark" data-expr="sin(2x) * cos(x/2)">
+              Modulación
+            </button>
+          </div>
+        </section>
+
+        <!-- Cursor Coordinates -->
+        <section class="sidebar-section mt-auto">
+          <div class="coordinates-panel">
+            <span class="panel-label">Posición del Cursor</span>
+            <div class="panel-values">
+              <div>X: <span id="coord-x" class="text-accent">-</span></div>
+              <div>Y: <span id="coord-y" class="text-accent">-</span></div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <footer id="footer" class="pb-4 pt-4">
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-12 col-lg">
-              <a href="https://github.com/jorrgeCruz/graphics">Repositorio Principal </a>
-            </div>
-            <div class="col-12 col-lg">
-              <a href="#">Contáctanos</a>
-            </div>
-            <div class="col-12 col-lg">
-              <a href="#">Estudiantes</a>
-            </div>
-          </div>
-        </div>
+      <!-- Mini Footer -->
+      <footer class="sidebar-footer">
+        <a href="https://github.com/jorrgeCruz/graphics" target="_blank" class="footer-link">
+          <i class="bi bi-github"></i> Repositorio
+        </a>
+        <span class="footer-sep">|</span>
+        <span class="text-secondary">Version 2.0</span>
       </footer>
-     <!-- Compressed JavaScript -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
-    </script>
-    <script src="./dist/src/index.js" type="module"></script>
-  </body>
+    </aside>
+
+    <!-- Main Canvas Display -->
+    <main class="canvas-area">
+      <!-- Floating Canvas Tooltip for quick instructions -->
+      <div class="canvas-instructions">
+        <i class="bi bi-info-circle"></i> Usa la <strong>rueda del ratón</strong> para hacer zoom, o <strong>arrastra
+          con el click izquierdo</strong> para desplazar.
+      </div>
+      <div class="canvas-container">
+        <canvas id="circlechart"></canvas>
+      </div>
+    </main>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Compiled JS Entry Point -->
+  <script src="./dist/src/index.js" type="module"></script>
+</body>
+
 </html>
