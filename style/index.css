@@ -1,7 +1,255 @@
-#footer{
-    background: linear-gradient(0deg,#1c3643,#273b47 25%,#1e5372);
-  }
-  
-  #footer a{
-    color: #FFFFFF;
-  }
+/* Design Tokens & Theme Variables: Light Cream Minimalist Palette */
+:root {
+  --bg-color: #EEE7DD;      /* Page backdrop */
+  --card-bg: #F6F2EA;       /* Cards & panels */
+  --input-bg: #F3EDE3;      /* Form inputs */
+  --hover-bg: #F2EBE3;      /* Row hover & sub-headers */
+  --canvas-bg: #F4EFE6;     /* Canvas backdrop */
+  --input-border: #DCD5CA;  /* Warm gray/sand borders */
+  --text-main: #1e293b;     /* Slate 800 - dark text */
+  --text-muted: #64748b;    /* Slate 500 - muted text */
+  --primary-color: #475569; /* Slate 600 - primary controls */
+  --primary-dark: #334155;
+  --primary-light: #64748b;
+  --accent-color: #c2410c;  /* Terracotta orange for contrast highlight */
+  --border-radius: 12px;
+  --transition-speed: 0.2s;
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Global resets & styling */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Sidebar scrollable container */
+.scrollable-panel {
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Custom Scrollbar for modern look */
+.scrollable-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollable-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollable-panel::-webkit-scrollbar-thumb {
+  background: var(--input-border);
+  border-radius: 4px;
+}
+.scrollable-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Card Styling */
+.bg-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  border-radius: var(--border-radius) !important;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+.card-header {
+  background-color: var(--hover-bg) !important;
+  border-bottom: 1px solid var(--input-border) !important;
+}
+
+/* Navbar Custom Light Styling */
+.navbar {
+  background-color: var(--card-bg) !important;
+  border-bottom: 1px solid var(--input-border) !important;
+}
+.navbar-brand {
+  color: var(--text-main) !important;
+}
+
+/* Inputs & Form Controls */
+.bg-input {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  color: var(--text-main) !important;
+  border-radius: 8px !important;
+  transition: all var(--transition-speed) ease-in-out;
+}
+
+.bg-input:focus {
+  background-color: var(--input-bg) !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(71, 85, 105, 0.15) !important;
+  outline: none;
+}
+
+/* Canvas Wrapper with grid style background */
+.canvas-wrapper {
+  background-color: var(--canvas-bg);
+  border: 1px solid var(--input-border);
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+  overflow: auto;
+  min-height: 480px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: border-color var(--transition-speed);
+}
+
+.canvas-wrapper:hover {
+  border-color: rgba(71, 85, 105, 0.3);
+}
+
+/* Canvas Styling */
+#chartCanvas {
+  background-color: transparent;
+  display: block;
+}
+
+/* Table styling for Light Minimalist Theme */
+.table {
+  --bs-table-bg: transparent !important;
+  --bs-table-color: var(--text-main) !important;
+}
+
+.table th {
+  background-color: var(--hover-bg) !important;
+  color: var(--text-muted) !important;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  border-bottom: 2px solid var(--input-border) !important;
+}
+
+.table td {
+  border-bottom: 1px solid var(--input-border) !important;
+  padding: 8px 4px !important;
+}
+
+.table-input {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: var(--text-main) !important;
+  padding: 6px 8px;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all var(--transition-speed);
+}
+
+.table-input:hover {
+  background: rgba(0, 0, 0, 0.015) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+.table-input:focus {
+  background: var(--input-bg) !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(71, 85, 105, 0.1) !important;
+  outline: none;
+}
+
+/* Table highlights switch */
+.form-check-input {
+  cursor: pointer;
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+}
+
+.form-check-input:checked {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15) !important;
+}
+
+/* Color palettes previews */
+.palette-preview-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--input-border);
+}
+
+/* Alert Styling - Light Theme friendly */
+.bg-dark-info {
+  background-color: rgba(13, 110, 253, 0.05) !important;
+}
+.border-info {
+  border-color: rgba(13, 110, 253, 0.2) !important;
+}
+.text-info {
+  color: #0284c7 !important;
+}
+
+.tracking-wider {
+  letter-spacing: 0.08em;
+}
+
+/* Buttons style overrides */
+.btn {
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.btn-success {
+  background-color: #15803d;
+  border-color: #15803d;
+}
+.btn-success:hover {
+  background-color: #166534;
+  border-color: #166534;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Footer position */
+.footer {
+  margin-top: auto;
+  background-color: var(--card-bg) !important;
+  border-top: 1px solid var(--input-border) !important;
+}

@@ -1,86 +1,124 @@
 <!doctype html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation Starter Template</title>
-    <!-- Compressed CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" 
-        rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style/index.css">
-    </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Graficación</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Abrir</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Vizualizar</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Expand</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  About
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="#">Development Team </a></li>
-                  <li><a class="dropdown-item" href="#">Version</a></li>
-                  <li><a class="dropdown-item" href="#">Contact</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+<html lang="es">
 
-      <div class="card text-center">
-        <div class="card-header">
-          Canvas de vizualizaion
-        </div>
-        <div class="chart card-img-bottom">
-            <canvas id="circlechart" width="640" height="480"></canvas>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gráfico de Barras 3D</title>
+  <!-- Local Fonts: Inter -->
+  <link rel="stylesheet" href="./lib/fonts/inter.css">
+  <!-- Local Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./style/index.css">
+</head>
+
+<body>
+  <!-- Minimalist Clean Header -->
+  <header class="py-3 px-4 border-bottom d-flex justify-content-between align-items-center bg-card">
+    <h1 class="h5 mb-0 fw-bold text-gradient">Visualizador 3D</h1>
+    <span id="rendered-info" class="small text-muted font-monospace">Listo</span>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container-fluid py-4 px-4">
+    <div class="row g-4">
+
+      <!-- Left Panel: Controls (Model updates) -->
+      <div class="col-12 col-xl-5">
+        <div class="card shadow-sm border-secondary bg-card p-4">
+          <h5 class="fw-bold mb-4 text-gradient">Configuración</h5>
+
+          <!-- General Settings Section -->
+          <div class="mb-4">
+            <label for="chart-title-input" class="form-label small text-muted">Título del Gráfico</label>
+            <input type="text" class="form-control bg-input border-secondary text-light mb-3" id="chart-title-input"
+              value="Rendimiento del Primer Trimestre">
+
+            <label for="chart-subtitle-input" class="form-label small text-muted">Subtítulo (Unidades)</label>
+            <input type="text" class="form-control bg-input border-secondary text-light" id="chart-subtitle-input"
+              value="En millones de USD">
           </div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">Está es el área de dibujo dosponible.</p>
-          
-          
-        </div>
-        
-        <div class="card-footer text-muted">
-          2 days ago
+
+          <!-- Color Palette Section -->
+          <div class="mb-4">
+            <label for="palette-select" class="form-label small text-muted">Paleta de Colores</label>
+            <select class="form-select bg-input border-secondary text-light" id="palette-select">
+              <option value="blue">Azul </option>
+              <option value="emerald">Verde </option>
+              <option value="charcoal">Carbón </option>
+              <option value="amber">Ámbar</option>
+            </select>
+
+            <!-- Color previews hidden in DOM to avoid visual noise while satisfying code selectors -->
+            <div class="d-none">
+              <div id="palette-preview-base"></div>
+              <div id="palette-preview-accent"></div>
+              <span id="palette-hex-base"></span>
+              <span id="palette-hex-accent"></span>
+            </div>
+          </div>
+
+          <!-- Data Entries Section -->
+          <div class="mb-3 d-flex justify-content-between align-items-center">
+            <span class="small text-muted fw-bold text-uppercase">Datos</span>
+            <button class="btn btn-success btn-sm d-flex align-items-center gap-1" id="btn-add-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-plus-lg"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+              </svg>
+              Añadir Fila
+            </button>
+          </div>
+
+          <div class="table-responsive border rounded mb-3" style="max-height: 230px; overflow-y: auto;">
+            <table class="table align-middle mb-0" id="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 45%;">Categoría</th>
+                  <th scope="col" style="width: 25%;">Valor</th>
+                  <th scope="col" style="width: 15%;" class="text-center">Destacar</th>
+                  <th scope="col" style="width: 15%;" class="text-center">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="data-table-body">
+                <!-- Rows will be dynamically loaded here by the View -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Global Action Buttons -->
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary btn-sm flex-grow-1" id="btn-load-sample">Cargar Ejemplo</button>
+            <button class="btn btn-outline-danger btn-sm flex-grow-1" id="btn-clear">Limpiar Todo</button>
+          </div>
         </div>
       </div>
 
-      <footer id="footer" class="pb-4 pt-4">
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-12 col-lg">
-              <a href="https://github.com/jorrgeCruz/graphics">Repositorio Principal </a>
-            </div>
-            <div class="col-12 col-lg">
-              <a href="#">Contáctanos</a>
-            </div>
-            <div class="col-12 col-lg">
-              <a href="#">Estudiantes</a>
-            </div>
+      <!-- Right Panel: Canvas Visualizer -->
+      <div class="col-12 col-xl-7">
+        <div class="card shadow-sm border-secondary bg-card p-4 h-100 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold mb-0 text-gradient">Visualización</h5>
+
+          </div>
+
+          <!-- Canvas container -->
+          <div
+            class="canvas-wrapper flex-grow-1 d-flex justify-content-center align-items-center bg-canvas-grid rounded p-2">
+            <canvas id="chartCanvas" width="700" height="500"></canvas>
           </div>
         </div>
-      </footer>
-     <!-- Compressed JavaScript -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
-    </script>
-    <script src="./dist/src/index.js" type="module"></script>
-  </body>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Local Bootstrap Bundle JS -->
+  <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Entry module script -->
+  <script src="./dist/index.js" type="module"></script>
+</body>
+
 </html>

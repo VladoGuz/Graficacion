@@ -1,0 +1,10 @@
+{
+  "name": "graficacion-chart",
+  "version": "1.0.0",
+  "description": "Visualizador de gráfico de barras 3D en MVC",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "npx -y http-server . -o"
+  }
+}
