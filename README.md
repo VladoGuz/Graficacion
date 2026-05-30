@@ -1,5 +1,4 @@
-# Visualizador de Gráfico de Barras 3D - MVC + ESM
-
+# Visualizador de Gráfico de Barras horizontales 3D 
 Este proyecto es un visualizador interactivo de gráficos de barras horizontales en 3D
 
 
